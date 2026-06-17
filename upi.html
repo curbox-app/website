@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate via UPI · Curbox</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Inter:wght@400;500&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="/src/content.css">
+    <link rel="stylesheet" href="/src/donate.css">
+
+    <!-- Small, page-specific bits: the UPI id chip and the copy control. -->
+    <style>
+      .upi {
+        max-width: 34rem;
+      }
+
+      .upi__id {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        text-align: left;
+      }
+
+      .upi__id-value {
+        font-family: var(--font-mono);
+        font-size: clamp(1rem, 0.9rem + 0.8vw, 1.25rem);
+        letter-spacing: 0.02em;
+        color: var(--fg);
+        word-break: break-all;
+      }
+
+      .upi__copy {
+        flex: none;
+        padding: 0.5rem 0.9rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--fg);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .upi__copy:hover,
+      .upi__copy:focus-visible {
+        background: var(--fg);
+        color: var(--bg);
+      }
+
+      .upi__copy:focus-visible {
+        outline: 2px solid var(--fg);
+        outline-offset: 3px;
+      }
+
+      /* The primary tap-to-pay action: inverted, like the home page CTA. */
+      .upi__pay {
+        display: inline-block;
+        margin-top: 1.6rem;
+        padding: 0.9rem 2.4rem;
+        border-radius: 999px;
+        background: var(--fg);
+        color: var(--bg);
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: transform 0.2s ease;
+      }
+
+      .upi__pay:hover {
+        transform: translateY(-2px);
+      }
+
+      .upi__note {
+        margin-top: 1.4rem;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+    </style>
+</head>
+<body>
+    <main class="donate upi">
+        <nav class="page__nav">
+            <a class="page__wordmark" href="/">Curbox</a>
+            <a class="page__back" href="/donate.html">← Back</a>
+        </nav>
+
+        <header>
+            <span class="section-eyebrow">Donate · UPI</span>
+            <h1 class="donate__title">Pay via UPI.</h1>
+            <p class="donate__lead">On your phone, tap the button to open your UPI app. On desktop, copy the ID into any UPI app to send.</p>
+        </header>
+
+        <!--
+          REPLACE the UPI id below (two places: the visible value and the
+          data-upi attribute, which also feeds the upi:// deep link).
+        -->
+        <div class="upi__id">
+            <span class="upi__id-value" id="upiId" data-upi="nethical@upi">bradityaay@fam</span>
+            <button class="upi__copy" id="copyBtn" type="button">Copy</button>
+        </div>
+
+        <a class="upi__pay" id="payLink" href="#">Open UPI app</a>
+
+        <p class="upi__note">Payee name shows as Curbox. Any amount helps keep it free and open.</p>
+    </main>
+
+    <script>
+      (() => {
+        const idEl = document.getElementById('upiId');
+        const upiId = idEl.dataset.upi;
+
+        // Build the standard UPI deep link. Most Android UPI apps honour this.
+        const payLink = document.getElementById('payLink');
+        payLink.href =
+          'upi://pay?pa=' +
+          encodeURIComponent(upiId) +
+          '&pn=' +
+          encodeURIComponent('Curbox') +
+          '&cu=INR';
+
+        // Copy-to-clipboard with a brief confirmation.
+        const btn = document.getElementById('copyBtn');
+        btn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(upiId);
+            const original = btn.textContent;
+            btn.textContent = 'Copied';
+            setTimeout(() => { btn.textContent = original; }, 1500);
+          } catch {
+            // Clipboard blocked (e.g. insecure context): select the text instead.
+            const range = document.createRange();
+            range.selectNodeContents(idEl);
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        });
+      })();
+    </script>
+</body>
+</html>

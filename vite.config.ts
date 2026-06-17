@@ -21,6 +21,7 @@ export default defineConfig({
         about: resolve(__dirname, 'about.html'),
         features: resolve(__dirname, 'features.html'),
         donate: resolve(__dirname, 'donate.html'),
+        upi: resolve(__dirname, 'upi.html'),
       },
     },
   },
