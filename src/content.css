@@ -185,8 +185,13 @@ code {
   word-break: break-word;
 }
 
-/* Links — underlined, no colour change; this is a monochrome page. */
-a:not(.page__wordmark):not(.page__back) {
+/*
+  Links — underlined, no colour change; this is a monochrome page.
+  Button-styled anchors (.btn, .upi__pay) opt out: they set their own
+  colour/background and must not inherit the underlined text-link treatment,
+  or an inverted button renders as invisible same-colour text.
+*/
+a:not(.page__wordmark):not(.page__back):not(.btn):not(.upi__pay) {
   color: var(--fg);
   text-decoration: underline;
   text-decoration-color: var(--muted);
@@ -194,7 +199,7 @@ a:not(.page__wordmark):not(.page__back) {
   transition: text-decoration-color 0.2s ease;
 }
 
-a:not(.page__wordmark):not(.page__back):hover {
+a:not(.page__wordmark):not(.page__back):not(.btn):not(.upi__pay):hover {
   text-decoration-color: var(--fg);
 }
 

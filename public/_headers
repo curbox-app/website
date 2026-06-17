@@ -1,9 +1,10 @@
+# NOTE: this _headers file is honoured by Netlify and Cloudflare Pages only.
+# GitHub Pages (the current host) ignores it, so these headers are NOT applied
+# in production today. Keep it for a future migration, or move hosting to
+# Cloudflare Pages to actually serve these security headers + a CDN.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-
-/blog/rss.xml
-  Content-Type: application/rss+xml; charset=utf-8

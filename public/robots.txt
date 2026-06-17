@@ -67,7 +67,7 @@ User-agent: omgilibot
 Allow: /
 
 # ── Sitemaps ─────────────────────────────────────────────────────────────────
-Sitemap: https://curbox.app/sitemap-index.xml
+Sitemap: https://curbox.app/sitemap.xml
 
 # ── Structured content for AI / LLM ingestion (llmstxt.org) ──────────────────
 # Concise index:  https://curbox.app/llms.txt

@@ -17,7 +17,10 @@ export default defineConfig({
       // pages. Without this, `vite build` would emit only index.html and the
       // content pages would 404 in production.
       input: {
+        // The content-rich, crawlable landing page.
         main: resolve(__dirname, 'index.html'),
+        // The cinematic WebGL canvas page, served at /install-android/.
+        installAndroid: resolve(__dirname, 'install-android/index.html'),
         about: resolve(__dirname, 'about.html'),
         features: resolve(__dirname, 'features.html'),
         donate: resolve(__dirname, 'donate.html'),

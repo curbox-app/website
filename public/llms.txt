@@ -37,17 +37,12 @@ Curbox is organized into three areas: **Usage** (see where your time goes), **Fo
 
 - [Usage Stats](https://curbox.app/docs/usage/usage-stats/): Read your screen-time data — daily total, weekly chart, per-app breakdown, per-browser website stats — and ignore noisy apps, export to CSV, or pin home-screen widgets.
 
-## Blog
-
-- [Curbox Blog](https://curbox-app.github.io/blogs/blog/): Articles on digital well-being, dopamine, focus, and digital burnout.
-- [The Science of a 'Dopamine Detox'](https://curbox-app.github.io/blogs/blog/dopamine-detox/): What dopamine actually does and what a "detox" can realistically accomplish.
-- [5 Signs You're Experiencing Digital Burnout](https://curbox-app.github.io/blogs/blog/digital-burnout-signs/): The clearest warning signs of digital burnout and what to do.
-- [Curbox Release Notes: v1.2.0](https://curbox-app.github.io/blogs/blog/release-notes-v1-2-0/): Shizuku integration, redesigned analytics, category limits, and fixes.
-
 ## Optional
 
-- [Full LLM corpus (llms-full.txt)](https://curbox-app.github.io/blogs/llms-full.txt): Every feature documented in depth in a single self-contained file, written for LLM ingestion.
-- [About Curbox](https://curbox-app.github.io/blogs/about/): The FOSS mission and philosophy behind the project.
-- [Contribute](https://curbox-app.github.io/blogs/contribute/): How to translate, report bugs, write code, or otherwise help.
+- [Full LLM corpus (llms-full.txt)](https://curbox.app/llms-full.txt): Every feature documented in depth in a single self-contained file, written for LLM ingestion.
+- [About Curbox](https://curbox.app/about.html): The FOSS mission and philosophy behind the project.
+- [Features](https://curbox.app/features.html): Full breakdown of blocking, schedules, unlock challenges, focus mode, and insights.
+- [Install Curbox](https://curbox.app/install-android/): How to get Curbox on Android via F-Droid or GitHub releases.
+- [Donate](https://curbox.app/donate.html): Support the project via Patreon, GitHub Sponsors, PayPal, UPI, or crypto.
+- [Contribute](https://github.com/nethical6/curbox): How to translate, report bugs, write code, or otherwise help.
 - [Source code on GitHub](https://github.com/nethical6/curbox): The complete, auditable source (GNU GPL v3).
-- [Blog RSS feed](https://curbox-app.github.io/blogs/blog/rss.xml): Subscribe to new articles.

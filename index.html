@@ -1,29 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
-
-    <!--
-      Mobile-first viewport.
-      `viewport-fit=cover` lets the canvas bleed into the notch/safe areas on
-      modern OLED phones, and `user-scalable=no` stops the browser pinch-zoom
-      from fighting our own WebGL camera zoom.
-    -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="shortcut icon" href="/icons/favicon.ico">
+    <title>Curbox · Free Open-Source Screen Time &amp; App Blocker for Android</title>
+    <meta
+      name="description"
+      content="Curbox is a free, open-source Android app that curbs screen time and doomscrolling. Block apps, websites, Reels and Shorts, set focus sessions, and stay private with everything stored on your device. No internet permission, no tracking."
+    />
+    <link rel="canonical" href="https://curbox.app/" />
 
-    <title>Curbox · Break the loop</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/icons/favicon.ico" />
+
+    <!-- Open Graph / Twitter: rich link previews on social and chat apps. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Curbox" />
+    <meta property="og:title" content="Curbox · Break the doomscroll loop" />
+    <meta
+      property="og:description"
+      content="Free, open-source Android app that curbs screen time and blocks doomscrolling. Privacy first, fully on-device."
+    />
+    <meta property="og:url" content="https://curbox.app/" />
+    <meta property="og:image" content="https://curbox.app/icons/android-chrome-512x512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Curbox · Break the doomscroll loop" />
+    <meta
+      name="twitter:description"
+      content="Free, open-source Android app that curbs screen time and blocks doomscrolling. Privacy first, fully on-device."
+    />
+    <meta name="twitter:image" content="https://curbox.app/icons/android-chrome-512x512.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,155 +42,281 @@
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/src/style.css" />
-  </head>
-  <body>
-    <!-- The single WebGL canvas is injected here by Pixi. Zero DOM imagery. -->
-    <div id="app"></div>
+    <link rel="stylesheet" href="/src/content.css" />
 
-    <!--
-      Navigation — a hamburger toggle (top-right, clear of the notch) that
-      reveals a full-screen overlay menu. Lives above the canvas; everything
-      else on the page ignores pointer events, so the button/menu opt back in.
-    -->
-    <button
-      id="nav-toggle"
-      class="nav-toggle"
-      aria-label="Open navigation menu"
-      aria-controls="nav-menu"
-      aria-expanded="false"
-    >
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-    </button>
+    <!-- Landing-only bits: top nav row, hero CTAs, feature grid, footer. -->
+    <style>
+      .home-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem 1.5rem;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: clamp(3rem, 10vh, 5rem);
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
 
-    <nav id="nav-menu" class="nav-menu" aria-hidden="true">
-      <ul class="nav-menu__list">
-        <li><a class="nav-menu__link" href="/about.html">About</a></li>
-        <li><a class="nav-menu__link" href="/features.html">Features</a></li>
-        <li><a class="nav-menu__link" href="/docs">Documentation</a></li>
-        <li><a class="nav-menu__link" href="/donate.html">Donate</a></li>
-        <li>
-          <a
-            class="nav-menu__link"
-            href="https://github.com/nethical6/curbox"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub</a
-          >
-        </li>
-      </ul>
-    </nav>
+      .home-nav__brand {
+        color: var(--fg);
+        text-decoration: none;
+        font-weight: 700;
+      }
 
-    <!--
-      Scrollable content stack, layered ABOVE the fixed WebGL canvas.
+      .home-nav__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem 1.4rem;
+        list-style: none;
+      }
 
-      Screen 1: the hero (tagline + install CTA + a minimal feature row).
-        Pure DOM, hidden until the cinematic pull-back finishes so it never
-        competes with the opening close-up, the camera zoom, or the figure-8
-        reveal. main.ts adds `.revealed` in the zoom's onComplete handler.
-      Screen 2: a deadpan nudge that only surfaces if you start scrolling,
-        because this is, after all, an anti-doomscroll project.
-    -->
-    <main class="scroll">
-      <section class="screen screen--hero">
-        <div id="hero" aria-hidden="true">
-          <h1 class="hero__title">Break the loop</h1>
-          <a class="hero__cta" href="#install">Install Curbox</a>
+      .home-nav__links a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
 
-          <ul class="hero__features">
-            <li>Granular blocking</li>
-            <li>Open source</li>
-            <li>Privacy first</li>
-            <li>Community built</li>
-          </ul>
-        </div>
+      .home-nav__links a:hover {
+        color: var(--fg);
+      }
 
-        <!-- Quiet hint that there's (just barely) more below. -->
-        <div class="scroll-cue" aria-hidden="true">
-          <span class="scroll-cue__line"></span>
-        </div>
-      </section>
+      /* Call-to-action row under the hero lead. */
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+        margin-top: 2rem;
+      }
 
-      <section class="screen screen--doom">
-        <p class="doom__text">I hope you don't plan to doomscroll here too</p>
-      </section>
+      .btn {
+        display: inline-block;
+        padding: 0.85rem 1.8rem;
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+      }
+
+      .btn--primary {
+        background: var(--fg);
+        color: var(--bg);
+      }
+
+      .btn--primary:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn--ghost {
+        border: 1px solid var(--line);
+        color: var(--fg);
+      }
+
+      .btn--ghost:hover {
+        border-color: var(--fg);
+      }
+
+      /* A two-column grid for the feature themes. */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+        gap: 1.75rem 2rem;
+        margin-top: 1.5rem;
+      }
+
+      .feature-grid h3 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.15rem;
+        letter-spacing: -0.01em;
+        margin-bottom: 0.4rem;
+      }
+
+      .feature-grid p {
+        color: var(--muted);
+        font-size: 0.98rem;
+        line-height: 1.55;
+      }
+
+      /* Footer link cluster. */
+      .home-footer {
+        margin-top: clamp(3.5rem, 9vh, 5rem);
+        padding-top: clamp(2rem, 5vh, 3rem);
+        border-top: 1px solid var(--line);
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+      }
+
+      .home-footer ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem 1.4rem;
+        list-style: none;
+        margin-bottom: 1.25rem;
+      }
+
+      .home-footer__legal {
+        line-height: 1.6;
+      }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <nav class="home-nav" aria-label="Primary">
+            <a class="home-nav__brand" href="/">Curbox</a>
+            <ul class="home-nav__links">
+                <li><a href="/features.html">Features</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/docs">Docs</a></li>
+                <li><a href="/donate.html">Donate</a></li>
+            </ul>
+        </nav>
+
+        <header>
+            <span class="kicker">Free · Open Source · Android</span>
+            <h1 class="page__title">Break the doomscroll loop.</h1>
+            <p class="lead">
+                Curbox is a free, open-source Android app that curbs screen time and
+                digital addiction. Block the apps, websites, and short-form feeds that
+                hijack your attention, build real focus, and keep every byte of your
+                usage data on your own device.
+            </p>
+            <div class="cta-row">
+                <a class="btn btn--primary" href="/install-android/">Install for Android</a>
+                <a class="btn btn--ghost" href="https://github.com/nethical6/curbox" target="_blank" rel="noopener noreferrer">View source on GitHub</a>
+            </div>
+        </header>
+
+        <section class="section">
+            <h2 class="section__title">What is Curbox?</h2>
+            <p>
+                Curbox is a screen-time and app-blocker for Android built for people who
+                want their attention back without handing their data to anyone. It uses
+                Android's Accessibility Service to watch for the apps and websites you
+                choose and show a configurable pause screen when you reach a limit. The
+                app ships under the GNU GPL v3 license, has no internet permission, and
+                is built in the open by its community.
+            </p>
+            <p>
+                It is organised into three areas: <strong>Usage</strong> (see where your
+                time goes), <strong>Focus</strong> (timed deep-work sessions that block
+                distractions), and <strong>Reducers</strong> (a toolbox of limits and
+                gentle nudges).
+            </p>
+        </section>
+
+        <section class="section">
+            <h2 class="section__title">What you can do</h2>
+            <div class="feature-grid">
+                <div>
+                    <h3>Granular blocking</h3>
+                    <p>Block a whole app, a single feature like Instagram Reels or YouTube Shorts, or one URL path while leaving the rest usable.</p>
+                </div>
+                <div>
+                    <h3>Smart rules &amp; schedules</h3>
+                    <p>Set usage limits, time windows, and unlock caps so a block applies only when you actually need it.</p>
+                </div>
+                <div>
+                    <h3>Unlock challenges</h3>
+                    <p>Choose your friction in advance: a cooldown, a QR or barcode scan, or typing out your intent before an app opens.</p>
+                </div>
+                <div>
+                    <h3>Focus mode</h3>
+                    <p>Pause distractions on demand for deep work and watch your focused time add up across sessions.</p>
+                </div>
+                <div>
+                    <h3>Insights &amp; live awareness</h3>
+                    <p>See per-app and per-website usage, plus a live count of how much short-form content you have scrolled today.</p>
+                </div>
+                <div>
+                    <h3>Mindful nudges</h3>
+                    <p>Per-app grayscale, auto Do Not Disturb, and reflection messages that quietly tilt your habits the right way.</p>
+                </div>
+            </div>
+            <p style="margin-top: 1.75rem;">
+                See the <a href="/features.html">full feature breakdown</a> for every option in depth.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2 class="section__title">Privacy first, fully on-device</h2>
+            <p>
+                Curbox has <strong>no internet permission</strong>, no telemetry, no
+                accounts, and no data collection. Your usage analytics never leave your
+                phone, and because the entire codebase is open source, that promise is
+                verifiable rather than just stated.
+            </p>
+        </section>
+
+        <section class="section" id="install">
+            <h2 class="section__title">Get Curbox</h2>
+            <p>Curbox is free and always will be. Install it from either source:</p>
+            <ul>
+                <li><a href="https://f-droid.org/" target="_blank" rel="noopener noreferrer">F-Droid</a> for automatic updates through the open-source app store</li>
+                <li><a href="https://github.com/nethical6/curbox/releases/latest" target="_blank" rel="noopener noreferrer">The latest GitHub release</a> for a direct APK download</li>
+            </ul>
+            <p style="margin-top: 1.25rem;">
+                New to the app? Read the <a href="/docs">documentation</a> to set up your
+                first block, or learn more <a href="/about.html">about why Curbox exists</a>.
+            </p>
+            <div class="cta-row">
+                <a class="btn btn--primary" href="/install-android/">Install for Android</a>
+            </div>
+        </section>
+
+        <footer class="home-footer">
+            <ul>
+                <li><a href="/features.html">Features</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/docs">Documentation</a></li>
+                <li><a href="/donate.html">Donate</a></li>
+                <li><a href="https://github.com/nethical6/curbox" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href="https://discord.com/invite/Vs9mwUtuCN" target="_blank" rel="noopener noreferrer">Discord</a></li>
+                <li><a href="https://t.me/curboxapp" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+            </ul>
+            <p class="home-footer__legal">
+                Curbox is free and open-source software released under the GNU GPL v3.
+                Built by the community since 2024.
+            </p>
+        </footer>
     </main>
 
-    <!--
-      Hamburger toggle logic. Self-contained: flips a `.open` class on <body>,
-      keeps ARIA state in sync, and closes on link-click or Escape.
-    -->
-    <script>
-      (() => {
-        const toggle = document.getElementById('nav-toggle');
-        const menu = document.getElementById('nav-menu');
-        if (!toggle || !menu) return;
-
-        const setOpen = (open) => {
-          document.body.classList.toggle('nav-open', open);
-          toggle.setAttribute('aria-expanded', String(open));
-          toggle.setAttribute(
-            'aria-label',
-            open ? 'Close navigation menu' : 'Open navigation menu'
-          );
-          menu.setAttribute('aria-hidden', String(!open));
-        };
-
-        toggle.addEventListener('click', () => {
-          setOpen(!document.body.classList.contains('nav-open'));
-        });
-
-        // Close after picking a destination.
-        menu.querySelectorAll('a').forEach((link) =>
-          link.addEventListener('click', () => setOpen(false))
-        );
-
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') setOpen(false);
-        });
-      })();
+    <!-- Structured data: helps Google and AI answer engines describe Curbox. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Curbox",
+      "operatingSystem": "Android",
+      "applicationCategory": "UtilitiesApplication",
+      "description": "Curbox is a free, open-source Android app that curbs screen time and doomscrolling. It blocks distracting apps, websites, and short-form video, offers focus sessions, and keeps all data on-device with no internet permission.",
+      "url": "https://curbox.app/",
+      "downloadUrl": "https://github.com/nethical6/curbox/releases/latest",
+      "softwareLicense": "https://www.gnu.org/licenses/gpl-3.0.html",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Curbox",
+        "url": "https://curbox.app/",
+        "sameAs": [
+          "https://github.com/nethical6/curbox",
+          "https://discord.com/invite/Vs9mwUtuCN",
+          "https://t.me/curboxapp"
+        ]
+      }
+    }
     </script>
-
-    <!--
-      Scroll choreography: reveal the deadpan line once its screen comes into
-      view, and retire the scroll cue the moment the user takes the hint.
-    -->
-    <script>
-      (() => {
-        const scroller = document.querySelector('.scroll');
-        const doom = document.querySelector('.doom__text');
-
-        if (doom && 'IntersectionObserver' in window) {
-          const io = new IntersectionObserver(
-            (entries) =>
-              entries.forEach((e) => {
-                if (e.isIntersecting) {
-                  doom.classList.add('in-view');
-                  io.disconnect();
-                }
-              }),
-            { root: scroller, threshold: 0.35 }
-          );
-          io.observe(doom);
-        } else if (doom) {
-          doom.classList.add('in-view');
-        }
-
-        const cue = document.querySelector('.scroll-cue');
-        if (cue && scroller) {
-          const onScroll = () => {
-            if (scroller.scrollTop > 8) {
-              cue.classList.add('gone');
-              scroller.removeEventListener('scroll', onScroll);
-            }
-          };
-          scroller.addEventListener('scroll', onScroll, { passive: true });
-        }
-      })();
-    </script>
-
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+</body>
 </html>
