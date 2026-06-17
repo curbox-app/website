@@ -20,7 +20,7 @@ const SEGMENT_COUNT = 50;
 /** Geometry of a single source screenshot inside the stitched strip. */
 const SCREENSHOT_W = 720; // px — one vertical reel's width
 const SCREENSHOT_H = 1612; // px — one vertical reel's height (5 of these = 8060)
-const SCREENSHOTS_PER_STRIP = 5; // each combined_***.jpg stacks 5 reels (8060px)
+const SCREENSHOTS_PER_STRIP = 5; // combined.webp stacks 5 reels (720×8060)
 
 /**
  * Tiny overlap between consecutive segments. The curve bends between segments,

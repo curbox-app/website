@@ -1,35 +1,29 @@
 import { Assets, Texture, TextureSource } from 'pixi.js';
 
 /**
- * Discover every stitched reel image inside `./screenshots_combined/`.
+ * The single stitched feed strip. The whole ribbon shares ONE texture
+ * (`combined.webp` — 720 × 8060 = five vertical reels stacked), so we load
+ * exactly that one file rather than the entire `./screenshots_combined/` folder.
  *
- * We use Vite's `import.meta.glob` instead of hand-listing 40 filenames. At
- * build time Vite statically rewrites this to the hashed, fingerprinted URLs of
- * every matching file, so the list stays correct no matter how many images you
- * drop into the folder (002…040 today, or 500 tomorrow — no code change).
- *
- * `eager: true` resolves the modules immediately; `query: '?url'` +
- * `import: 'default'` gives us the final emitted URL string for each asset.
+ * `?url` gives us the final emitted URL string for the asset; Vite fingerprints
+ * it at build time.
  */
 export function getReelImageUrls(): string[] {
   const modules = import.meta.glob(
-    './screenshots_combined/*.{jpg,jpeg,png,webp}',
+    './screenshots_combined/combined.webp',
     { eager: true, query: '?url', import: 'default' },
   ) as Record<string, string>;
 
-  // Sort by the source path so the order is deterministic (combined_002 first).
-  return Object.entries(modules)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([, url]) => url);
+  return Object.values(modules);
 }
 
 /**
  * Preload every reel texture through Pixi's Assets system and return them as a
  * plain array (ready to be randomly handed out to the 200 TilingSprites).
  *
- * Each source is a 720 × 8060 strip = five 720 × 1612 vertical screenshots
- * stacked on top of each other. We force `addressMode: 'repeat'` so a
- * TilingSprite can scroll through the strip forever and wrap seamlessly.
+ * The source is a 720 × 8060 strip = five vertical screenshots stacked on
+ * top of each other. We force `addressMode: 'repeat'` so a TilingSprite can
+ * scroll through the strip forever and wrap seamlessly.
  *
  * @param onProgress optional 0..1 callback for a loading UI.
  */
@@ -40,8 +34,7 @@ export async function loadReelTextures(
 
   if (urls.length === 0) {
     throw new Error(
-      'No reel images found in ./screenshots_combined/. ' +
-        'Expected files like combined_002.jpg … combined_040.jpg.',
+      'Reel strip not found: ./screenshots_combined/combined.webp is missing.',
     );
   }
 
