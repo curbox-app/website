@@ -1,0 +1,227 @@
+/*
+  Donate: a bespoke, centered, typographic page. It reuses the tokens, reset,
+  fonts, and nav from content.css, then layers its own monument-style layout on
+  top. Pure monochrome, no chromatic accent; boldness is spent on one place:
+  the broken-loop ASCII mark and the display-type donation menu.
+*/
+
+.donate {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 9vh, 6.5rem) clamp(1.5rem, 6vw, 2.5rem) 6rem;
+  text-align: center;
+}
+
+/* The nav stays a left/right rail even though the page is centered. */
+.donate .page__nav {
+  text-align: left;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Hero: the broken loop, the thesis headline, the honest framing.
+ * ------------------------------------------------------------------ */
+.donate__loop {
+  display: inline-block;
+  margin: 0 0 clamp(1.6rem, 5vh, 2.6rem);
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 2.6vw, 1rem);
+  line-height: 1.08;
+  white-space: pre;
+  color: var(--muted);
+  opacity: 0.55;
+  user-select: none;
+}
+
+.donate__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 1.3rem + 6vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.donate__lead {
+  margin: 1.4rem auto 0;
+  max-width: 34rem;
+  font-size: clamp(1.05rem, 0.98rem + 0.5vw, 1.3rem);
+  line-height: 1.55;
+  color: var(--fg);
+}
+
+/* ------------------------------------------------------------------ *
+ *  The refusal: what Curbox will never do. Trust + identity, set as a
+ *  mono strip between two hairlines.
+ * ------------------------------------------------------------------ */
+.refuse {
+  list-style: none;
+  margin: clamp(3rem, 8vh, 4.5rem) 0 0;
+  padding: clamp(1.4rem, 4vh, 2rem) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 2rem;
+
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.6vw, 0.84rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.refuse li {
+  position: relative;
+}
+
+.refuse li + li::before {
+  content: '·';
+  position: absolute;
+  left: -1.05rem;
+  color: var(--muted);
+}
+
+/* ------------------------------------------------------------------ *
+ *  What support protects: three concrete things, each with a mono
+ *  eyebrow naming the value at stake.
+ * ------------------------------------------------------------------ */
+.protects {
+  margin-top: clamp(3.5rem, 9vh, 5.5rem);
+  display: grid;
+  gap: clamp(1.8rem, 5vh, 2.8rem);
+}
+
+.section-eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.protects__label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.protects__text {
+  max-width: 30rem;
+  margin: 0 auto;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 1rem + 1.2vw, 1.85rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Ways to give: a display-type menu. Names are big, metadata is mono,
+ *  and the arrow slides on hover. Left-aligned within a centered column
+ *  so the eye can run down the list.
+ * ------------------------------------------------------------------ */
+.give {
+  margin-top: clamp(3.5rem, 10vh, 6rem);
+}
+
+.give__head {
+  margin-bottom: 1.4rem;
+}
+
+.methods {
+  max-width: 34rem;
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+  text-align: left;
+}
+
+.method {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: clamp(1.05rem, 3vh, 1.5rem) 0.35rem;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.method__name {
+  margin-right: auto;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1.1rem + 1.4vw, 2.1rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.method__meta {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.method__arrow {
+  font-family: var(--font-mono);
+  color: var(--muted);
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.25s ease;
+}
+
+.method:hover .method__name,
+.method:focus-visible .method__name {
+  transform: translateX(0.45rem);
+}
+
+.method:hover .method__arrow,
+.method:focus-visible .method__arrow {
+  transform: translateX(0.45rem);
+  color: var(--fg);
+}
+
+.method:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Coda: the autonomy line. Giving is optional, and saying so plainly
+ *  is both honest and disarming.
+ * ------------------------------------------------------------------ */
+.coda {
+  max-width: 32rem;
+  margin: clamp(3rem, 9vh, 5rem) auto 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.coda a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--muted);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.coda a:hover {
+  text-decoration-color: var(--fg);
+}
+
+/* Tighten the menu on small screens: drop the metadata, keep name + arrow. */
+@media (max-width: 30rem) {
+  .method__meta {
+    display: none;
+  }
+}
