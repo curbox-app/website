@@ -1,0 +1,105 @@
+{
+  "version": "v1.0.0",
+  "entity": {
+    "type": "organisation",
+    "role": "owner",
+    "name": "Curbox",
+    "email": "questphone@proton.me",
+    "description": "Curbox is an open-source project that builds tools to help people cut down on screen time and digital addiction. Everything is free, ships under the GPL v3 license, and is developed in the open by its community.",
+    "webpageUrl": {
+      "url": "https://curbox.app",
+      "wellKnown": "https://curbox.app/.well-known/funding-manifest-urls"
+    }
+  },
+  "projects": [
+    {
+      "guid": "curbox",
+      "name": "Curbox",
+      "description": "A screen-time and app blocker for Android that gives you your attention back without taking your data. You pick the apps, sites, and short-form feeds to watch, and Curbox shows a pause screen when you hit a limit. It can block a whole app or just one feature like Reels or Shorts, run focus sessions, and add a bit of friction (a cooldown, a QR scan, or typing out why you want to open something) before you can keep scrolling. No accounts, no telemetry, nothing leaves your phone.",
+      "webpageUrl": {
+        "url": "https://curbox.app",
+        "wellKnown": "https://curbox.app/.well-known/funding-manifest-urls"
+      },
+      "repositoryUrl": {
+        "url": "https://github.com/nethical6/curbox"
+      },
+      "licenses": [
+        "spdx:GPL-3.0-or-later"
+      ],
+      "tags": [
+        "android",
+        "screen-time",
+        "digital-wellbeing",
+        "app-blocker",
+        "focus",
+        "privacy",
+        "foss"
+      ]
+    }
+  ],
+  "funding": {
+    "channels": [
+      {
+        "guid": "patreon",
+        "type": "payment-provider",
+        "address": "https://patreon.com/nethical",
+        "description": "Monthly support through Patreon."
+      },
+      {
+        "guid": "github-sponsors",
+        "type": "payment-provider",
+        "address": "https://github.com/sponsors/nethical6",
+        "description": "One-time or monthly support through GitHub Sponsors."
+      },
+      {
+        "guid": "paypal",
+        "type": "payment-provider",
+        "address": "https://www.paypal.com/paypalme/nethicall",
+        "description": "One-time support through PayPal."
+      },
+      {
+        "guid": "upi",
+        "type": "payment-provider",
+        "address": "https://curbox.app/upi.html",
+        "description": "UPI payments for supporters in India."
+      },
+      {
+        "guid": "crypto",
+        "type": "other",
+        "address": "https://curbox.app/crypto.txt",
+        "description": "On-chain donations in BTC, ETH, or XMR."
+      }
+    ],
+    "plans": [
+      {
+        "guid": "keep-it-running",
+        "status": "active",
+        "name": "Keep Curbox running",
+        "description": "Covers the day-to-day work of building, fixing, and shipping Curbox so it stays free and ad-free for everyone. Give what feels right.",
+        "amount": 5,
+        "currency": "USD",
+        "frequency": "monthly",
+        "channels": [
+          "patreon",
+          "github-sponsors"
+        ]
+      },
+      {
+        "guid": "one-time-thanks",
+        "status": "active",
+        "name": "One-time thanks",
+        "description": "A single contribution from someone who got their time back and wants to pass a little of it forward.",
+        "amount": 25,
+        "currency": "USD",
+        "frequency": "one-time",
+        "channels": [
+          "paypal",
+          "upi",
+          "crypto",
+          "github-sponsors"
+        ]
+      }
+    ],
+    "history": []
+  }
+}
