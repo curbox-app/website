@@ -35,6 +35,32 @@
         "privacy",
         "foss"
       ]
+    },
+    {
+      "guid": "curbox-extension",
+      "name": "Curbox Browser Extension",
+      "description": "The free screen-time browser extension for Chrome, Brave, and Firefox. It tracks how long you actually spend on sites (counting only active viewing time), blocks sites in groups with usage-based, time-based, or per-visit rules, and uses keyword and pattern matching to block feeds like Reels or Shorts while leaving the rest of a site usable. When you reach a blocked page it shows a customizable breathing warning screen with no-unlock, effort-based, or timer-based options. Built with WXT, React, and TypeScript.",
+      "webpageUrl": {
+        "url": "https://curbox.app",
+        "wellKnown": "https://curbox.app/.well-known/funding-manifest-urls"
+      },
+      "repositoryUrl": {
+        "url": "https://github.com/curbox-app/curbox-extension"
+      },
+      "licenses": [
+        "spdx:GPL-3.0-or-later"
+      ],
+      "tags": [
+        "browser-extension",
+        "chrome",
+        "firefox",
+        "screen-time",
+        "digital-wellbeing",
+        "website-blocker",
+        "focus",
+        "privacy",
+        "foss"
+      ]
     }
   ],
   "funding": {
@@ -68,6 +94,12 @@
         "type": "other",
         "address": "https://curbox.app/crypto.txt",
         "description": "On-chain donations in BTC, ETH, or XMR."
+      },
+      {
+        "guid": "invoice",
+        "type": "other",
+        "address": "mailto:questphone@proton.me",
+        "description": "Invoiced corporate sponsorship and bank transfers. Email us for a quote, PO, or contract."
       }
     ],
     "plans": [
@@ -96,6 +128,45 @@
           "paypal",
           "upi",
           "crypto",
+          "github-sponsors"
+        ]
+      },
+      {
+        "guid": "corporate-sponsor",
+        "status": "active",
+        "name": "Corporate sponsor",
+        "description": "For companies whose teams rely on Curbox to stay focused. Sponsoring at this tier or above lists your company name and logo in the project README on GitHub. Invoicing and POs available.",
+        "amount": 1000,
+        "currency": "USD",
+        "frequency": "monthly",
+        "channels": [
+          "github-sponsors",
+          "invoice"
+        ]
+      },
+      {
+        "guid": "sustaining-partner",
+        "status": "active",
+        "name": "Sustaining partner",
+        "description": "For organisations that want to underwrite a meaningful share of Curbox's ongoing development. Includes README placement, priority on roadmap discussion, and a direct line to the maintainers. Invoicing and contracts available.",
+        "amount": 5000,
+        "currency": "USD",
+        "frequency": "monthly",
+        "channels": [
+          "github-sponsors",
+          "invoice"
+        ]
+      },
+      {
+        "guid": "annual-backer",
+        "status": "active",
+        "name": "Annual corporate backer",
+        "description": "A single yearly contribution for companies that prefer to sponsor on an annual budget cycle. Qualifies for README placement. Paid by invoice or bank transfer.",
+        "amount": 12000,
+        "currency": "USD",
+        "frequency": "yearly",
+        "channels": [
+          "invoice",
           "github-sponsors"
         ]
       }
